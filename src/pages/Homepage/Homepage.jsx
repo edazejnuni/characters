@@ -6,24 +6,21 @@ import Search from '../../components/Search/Search'
 import { Grid } from 'react-loader-spinner'
 import Pagination from '../../components/Pagination/Pagination'
 import Filter from '../../components/Filter/Filter'
+import CharacterDetailsModal from '../../components/CharacterDetailsModal/CharacterDetailsModal'
 
 const Homepage = () => {
     const [characters, setCharacters] = useState([]);
     const [filteredItem, setFilteredItem] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const [pageNumber, setPageNumber] = useState(1)
-    const [totalPages, setTotalPages] = useState()
-    const [currentPage, setCurrentPage] = useState()
-    const [nextPage, setNextPage] = useState()
-    const [prevPage, setPrevPage] = useState()
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [characterData, setCharacterData] = useState([])
 
     const { data } = useGetCharactersQuery({ page: pageNumber });
     const fetchData = () => {
         if (data) {
             setCharacters(data.results);
             setIsLoading(true)
-            setTotalPages(Math.ceil(data.count / 10))
             console.log(data.results)
         }
     }
@@ -48,6 +45,16 @@ const Homepage = () => {
         setCharacters(filteredArray)
     }
 
+    const openModal = (character) => {
+        setCharacterData(character);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+
     return (
         <div className='homepage__container'>
             {isLoading ?
@@ -56,11 +63,12 @@ const Homepage = () => {
                     <Filter />
                     <div className="grid-container">
                         {characters.map((character, idx) => (
-                            <div className="grid" key={idx}>
+                            <div className="grid" key={idx} onClick={() => openModal(character)}>
                                 <Character name={character.name} />
                             </div>
                         ))}
                     </div>
+                    <CharacterDetailsModal isOpen={isModalOpen} characterData={characterData} closeModal={closeModal} />
 
                 </> :
                 <div
