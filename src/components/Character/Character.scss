@@ -1,0 +1,15 @@
+.character__container{
+    box-shadow: 0 5px 15px 0 rgba(0,0,0,0.5);
+    height: 100px;
+    margin: 10px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    padding: 10px;
+    &:hover{
+        background-color: #484e55;
+        transform: scale(1.05);
+        transition: .2s ease-in-out;
+    }
+}

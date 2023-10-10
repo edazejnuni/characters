@@ -11,9 +11,9 @@ export const charactersApi = createApi({
   }),
   endpoints: (builder) => ({
     getCharacters: builder.query({
-      query: () => {
+      query: ({page}) => {
         return {
-          url: "https://swapi.dev/api/people/",
+          url: `https://swapi.dev/api/people/?page=${page}`,
           method: "get"
         };
       }
