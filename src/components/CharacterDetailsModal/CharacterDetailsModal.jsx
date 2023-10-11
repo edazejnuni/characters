@@ -28,7 +28,6 @@ const CharacterDetailsModal = ({ isOpen, characterData, closeModal }) => {
 
     useEffect(() => {
         fetchHomeWorldData();
-        console.log(homeWorldData)
 
         if (isOpen && characterData.created) {
             const originalDate = new Date(characterData.created);
@@ -57,7 +56,7 @@ const CharacterDetailsModal = ({ isOpen, characterData, closeModal }) => {
                 <p>Name: {homeWorldData.name}</p>
                 <p>Terrain: {homeWorldData.terrain}</p>
                 <p>Climate: {homeWorldData.climate}</p>
-                <p>Amount of residents: {homeWorldData.residents.length}</p>
+                <p>Amount of residents: {homeWorldData.residents?.length}</p>
                 <button onClick={closeModal}>Close</button>
             </div>
         </div>

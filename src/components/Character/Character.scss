@@ -5,11 +5,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #ffffff;
+    color: #484e55;
     padding: 10px;
     &:hover{
-        background-color: #484e55;
         transform: scale(1.05);
+        box-shadow: 0 10px 25px 0 rgba(0,0,0,0.5);
         transition: .2s ease-in-out;
+        cursor: pointer;
     }
 }
