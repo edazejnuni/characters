@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useGetCharactersQuery } from '../../redux/api/charactersApi';
+import {
+    useGetCharactersQuery,
+    useGetFilmsQuery,
+    useGetHomeworldsQuery,
+    useGetSpeciesQuery,
+} from '../../redux/api/charactersApi';
 import Character from '../../components/Character/Character';
 import './Homepage.scss';
 import Search from '../../components/Search/Search';
@@ -16,15 +21,23 @@ const Homepage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [characterData, setCharacterData] = useState([]);
     const [totalCharacters, setTotalCharacters] = useState(0);
-    const [nextPageUrl, setNextPageUrl] = useState(null);
+    const [homeworlds, setHomeworlds] = useState([]);
+    const [films, setFilms] = useState([]);
+    const [species, setSpecies] = useState([]);
+    const [selectedHomeworld, setSelectedHomeworld] = useState('');
+    const [selectedFilm, setSelectedFilm] = useState('');
+    const [selectedSpecies, setSelectedSpecies] = useState('');
+    const [selectedFilter, setSelectedFilter] = useState('');
 
     const { data } = useGetCharactersQuery({ page: pageNumber });
+    const { dataHomeworlds } = useGetHomeworldsQuery({ page: pageNumber });
+    const { dataFilms } = useGetFilmsQuery({ page: pageNumber });
+    const { dataSpecies } = useGetSpeciesQuery({ page: pageNumber });
 
     const fetchData = () => {
         if (data) {
             setCharacters(data.results);
             setTotalCharacters(data.count);
-            setNextPageUrl(data.next);
             setIsLoading(true);
         }
     };
@@ -33,7 +46,34 @@ const Homepage = () => {
         fetchData();
     }, [data]);
 
-    const handleFilteredItem = (e) => {
+    const fetchHomeworlds = () => {
+        if (dataHomeworlds) {
+            setHomeworlds(dataHomeworlds.results);
+        }
+    };
+    useEffect(() => {
+        fetchHomeworlds();
+    }, [dataHomeworlds]);
+
+    const fetchFilms = () => {
+        if (dataFilms) {
+            setFilms(dataFilms.results);
+        }
+    };
+    useEffect(() => {
+        fetchFilms();
+    }, [dataFilms]);
+
+    const fetchSpecies = () => {
+        if (dataSpecies) {
+            setSpecies(dataSpecies.results);
+        }
+    };
+    useEffect(() => {
+        fetchSpecies();
+    }, [dataSpecies]);
+
+    const handleSearchedItem = (e) => {
         const searchedValue = e.target.value.toLowerCase();
         setFilteredItem(searchedValue);
 
@@ -54,11 +94,7 @@ const Homepage = () => {
         setIsModalOpen(true);
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
     const charactersPerPage = 10;
-
     const totalPages = Math.ceil(totalCharacters / charactersPerPage);
 
     const goToPage = (targetPage) => {
@@ -67,6 +103,11 @@ const Homepage = () => {
         }
     };
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+
     return (
         <div className="homepage__container">
             {isLoading ? (
@@ -74,9 +115,8 @@ const Homepage = () => {
                     <Search
                         filteredItem={filteredItem}
                         placeholder="Search character..."
-                        handleFilteredItem={handleFilteredItem}
+                        handleSearchedItem={handleSearchedItem}
                     />
-                    <Filter />
                     <div className="grid-container">
                         {characters.map((character, idx) => (
                             <div className="grid" key={idx} onClick={() => openModal(character)}>
@@ -91,8 +131,11 @@ const Homepage = () => {
                         goToPage={goToPage}
                     />
 
-
-                    <CharacterDetailsModal isOpen={isModalOpen} characterData={characterData} closeModal={closeModal} />
+                    <CharacterDetailsModal
+                        isOpen={isModalOpen}
+                        characterData={characterData}
+                        closeModal={closeModal}
+                    />
                 </>
             ) : (
                 <div

@@ -1,12 +1,12 @@
-import React from 'react'
-import './Search.scss'
+import React from 'react';
+import './Search.scss';
 
-const Search = ({ filteredItem, handleFilteredItem, placeholder }) => {
+const Search = ({ filteredItem, handleSearchedItem, placeholder }) => {
     return (
-        <div className='search__container'>
-            <input value={filteredItem} placeholder={placeholder} onChange={handleFilteredItem} />
+        <div className="search__container">
+            <input value={filteredItem} placeholder={placeholder} onChange={handleSearchedItem} />
         </div>
-    )
-}
+    );
+};
 
-export default Search
+export default Search;

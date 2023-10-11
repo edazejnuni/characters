@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.scss'
 
-function Login() {
+function Login({ setIsAuthenticated }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -15,6 +15,7 @@ function Login() {
         const isSuccess = AuthService.login(username, password);
         if (isSuccess) {
             navigate("/")
+            setIsAuthenticated(true)
         } else {
             setError(toast("Invalid username or password"));
         }

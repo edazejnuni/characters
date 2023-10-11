@@ -17,8 +17,32 @@ export const charactersApi = createApi({
           method: "get"
         };
       }
+    }),
+    getHomeworlds: builder.query({
+      query: ({page}) => {
+        return {
+          url: `https://swapi.dev/api/planets/?page=${page}`,
+          method: "get"
+        };
+      }
+    }),
+    getFilms: builder.query({
+      query: ({page}) => {
+        return {
+          url: `https://swapi.dev/api/films/?page=${page}`,
+          method: "get"
+        };
+      }
+    }),
+    getSpecies: builder.query({
+      query: ({page}) => {
+        return {
+          url: `https://swapi.dev/api/species/?page=${page}`,
+          method: "get"
+        };
+      }
     })
   })
 });
 
-export const { useGetCharactersQuery } = charactersApi;
+export const { useGetCharactersQuery, useGetHomeworldsQuery, useGetFilmsQuery, useGetSpeciesQuery } = charactersApi;

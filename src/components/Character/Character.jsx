@@ -12,7 +12,9 @@ const mapSkinColorToBackgroundColor = (bgColor) => {
 
 const Character = ({ name, bgColor }) => {
     const skinColorArray = bgColor.split(',').map(color => color.trim());
+
     const backgroundColors = skinColorArray.map(mapSkinColorToBackgroundColor);
+
     const bgColorValue = backgroundColors.length > 0 ? backgroundColors[0] : '#ffffff';
     const style = {
         backgroundColor: bgColorValue,

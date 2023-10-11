@@ -9,21 +9,23 @@ import AuthService from './services/AuthService';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(async() => {
-    const token = AuthService.getToken();
-    await setIsAuthenticated(!!token);
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      const token = AuthService.getToken();
+      const authenticated = !!token;
+      setIsAuthenticated(authenticated);
+      console.log(isAuthenticated)
+    };
+
+    checkAuthentication();
+
+    window.addEventListener('storage', checkAuthentication);
+
+    return () => {
+      window.removeEventListener('storage', checkAuthentication);
+    }
   }, []);
   
-  useEffect(() => {
-    console.log("isAuthenticated:", isAuthenticated);
-  }, [isAuthenticated]);
-  
-  useEffect(() => {
-    const token = AuthService.getToken();
-    console.log("token:", token);
-  }, [isAuthenticated]);
-  
-
   const handleLogout = () => {
     AuthService.logout();
     setIsAuthenticated(false);
@@ -34,7 +36,7 @@ function App() {
       <Header isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/" element={<Homepage />} />
           <Route
             path="/"
