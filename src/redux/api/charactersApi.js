@@ -11,33 +11,33 @@ export const charactersApi = createApi({
   }),
   endpoints: (builder) => ({
     getCharacters: builder.query({
-      query: ({page}) => {
+      query: ({ page }) => {
         return {
           url: `https://swapi.dev/api/people/?page=${page}`,
           method: "get"
         };
       }
     }),
-    getHomeworlds: builder.query({
-      query: ({page}) => {
+    getSpecies: builder.query({
+      query: ({ page }) => {
         return {
-          url: `https://swapi.dev/api/planets/?page=${page}`,
+          url: `https://swapi.dev/api/species/?page=${page}`,
           method: "get"
         };
       }
     }),
     getFilms: builder.query({
-      query: ({page}) => {
+      query: ({ page }) => {
         return {
           url: `https://swapi.dev/api/films/?page=${page}`,
           method: "get"
         };
       }
     }),
-    getSpecies: builder.query({
-      query: ({page}) => {
+    getPlanets: builder.query({
+      query: ({ page }) => {
         return {
-          url: `https://swapi.dev/api/species/?page=${page}`,
+          url: `https://swapi.dev/api/planets/?page=${page}`,
           method: "get"
         };
       }
@@ -45,4 +45,9 @@ export const charactersApi = createApi({
   })
 });
 
-export const { useGetCharactersQuery, useGetHomeworldsQuery, useGetFilmsQuery, useGetSpeciesQuery } = charactersApi;
+export const {
+  useGetCharactersQuery,
+  useGetSpeciesQuery,
+  useGetFilmsQuery,
+  useGetPlanetsQuery
+} = charactersApi;

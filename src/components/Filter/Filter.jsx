@@ -1,52 +1,34 @@
 import React from 'react';
+import './Filter.scss'
 
-const Filter = ({ selectedFilter, handleFilterChange, homeworlds, films, species }) => {
+const Filter = ({ selectedFilter, handleFilterChange, data, filterName }) => {
+
     return (
-        <div>
-            <label htmlFor="filterDropdown">Filter by:</label>
+        <div className='filter__component'>
+            <label htmlFor="filter__dropdown">Select <span>{filterName}:</span></label>
             <select
-                id="filterDropdown"
+                id="filter__dropdown"
                 value={selectedFilter}
                 onChange={handleFilterChange}
+                className='filter__dropdown'
             >
-                <option value="">All</option>
-                <option value="homeworld">Homeworld</option>
-                <option value="film">Film</option>
-                <option value="species">Species</option>
+                {filterName === "Films" ?
+                    <>
+                        {
+                            data.map((option, idx) => (
+                                <option key={idx} value={option.url}>{option.title}</option>
+                            ))
+                        }</> :
+                    <>
+                        {
+                            data.map((option, idx) => (
+                                <option key={idx} value={option.url}>{option.name}</option>
+                            ))
+                        }
+                    </>
+                }
+
             </select>
-
-            {selectedFilter === "homeworld" && (
-                <select>
-                    <option value="">Select a homeworld</option>
-                    {homeworlds.map((homeworld) => (
-                        <option key={homeworld.id} value={homeworld.name}>
-                            {homeworld.name}
-                        </option>
-                    ))}
-                </select>
-            )}
-
-            {selectedFilter === "film" && (
-                <select>
-                    <option value="">Select a film</option>
-                    {films.map((film) => (
-                        <option key={film.id} value={film.title}>
-                            {film.title}
-                        </option>
-                    ))}
-                </select>
-            )}
-
-            {selectedFilter === "species" && (
-                <select>
-                    <option value="">Select a species</option>
-                    {species.map((specie) => (
-                        <option key={specie.id} value={specie.name}>
-                            {specie.name}
-                        </option>
-                    ))}
-                </select>
-            )}
         </div>
     );
 };
